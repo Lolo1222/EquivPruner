@@ -21,7 +21,7 @@ from reason.guided_search.utils import is_similar_str_pair
 # from reason.guided_search.utils_bk import is_similar_str_pair
 import logging
 
-# 获取全局 logger
+# get global logger
 logger = logging.getLogger('reason.evaluation.evaluate')
 
 class Node(object):
@@ -80,9 +80,9 @@ class Node(object):
         self._visit_count += 1
         self._value_sum += value
         # Lolo1222: for merge similar node
-        # # 重新计算Q值
+        # # recalculate Q value
         # self.q_value = self.value_sum / self.visit_count
-        # # 重新计算PUCT值
+        # # recalculate PUCT value
         # self.prm_value = self.q_value + self.c_puct * self.prior * \
         #                 math.sqrt(self.parent.visit_count) / (1 + self.visit_count)
     def update_recursive(self, leaf_value: float, mcts_mode: str) -> None:
@@ -223,15 +223,15 @@ class LanguageNode(Node):
         
     # Lolo1222: for merge similar node
     def merge_node(self, merged_node: Node):
-        # 1. 计算合并后的value_sum
-        # 由于_value_sum是protected,我们通过public的value和visit_count来计算
+        # 1. calculate merged value_sum
+        # since _value_sum is protected, we calculate it through public value and visit_count
         self._value_sum = max(self._value_sum, merged_node.value * merged_node.visit_count)
         
-        # 2. 修改visit_count的更新 
-        # 不更新visit_count, 因为merge在expand后调用，此时visit_count默认置1没有更新
+        # 2. update visit_count
+        # don't update visit_count, because merge is called after expand, and visit_count is set to 1 by default
         # self._visit_count += merged_node.visit_count
         
-        # 3. 可选的属性更新
+        # 3. optional attribute update
         if hasattr(self, 'prm_value') and self.prm_value is not None:
             self.prm_value = (self.prm_value * self._visit_count + merged_node.prm_value * merged_node.visit_count) / (self._visit_count + merged_node.visit_count)
         
@@ -241,12 +241,12 @@ class LanguageNode(Node):
         if hasattr(self, 'has_collected_token_num'):
             self.has_collected_token_num |= merged_node.has_collected_token_num
         
-        # 4. prior概率的更新
+        # 4. update prior probability
         self.prior_p += merged_node.prior_p
         self.prior_p_ori += merged_node.prior_p_ori
         
-        # 5. terminated状态的更新 
-        self._terminated |= merged_node.terminated  # 使用public的terminated属性
+        # 5. update terminated state
+        self._terminated |= merged_node.terminated  # use public terminated attribute
 
 
 
@@ -1015,7 +1015,7 @@ class SearchTree:
         # node.children={"action_text1": node1, "action_text2": node2, ...}
 
         keys = list(node.children.keys())
-        merged = set()  # 用于记录已经合并的键
+        merged = set()  # used to record merged keys
 
         for i in range(len(keys)):
             if keys[i] in merged:
@@ -1031,7 +1031,7 @@ class SearchTree:
                     logger.debug(f"Merge key2 into key1! key1=<{key1}>, key2=<{key2}>")
                     merged.add(key2)
         
-        # 移除已经合并的键
+        # remove merged keys
         for key in merged:
             del node.children[key]
 

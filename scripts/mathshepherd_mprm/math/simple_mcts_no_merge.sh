@@ -1,4 +1,5 @@
 export PYTHONPATH=$(pwd)
+export USE_REMOTE_MERGE_MODEL=true
 python reason/evaluation/evaluate.py \
     --LM mistral-7b-sft \
     --RM math-shepherd-mistral-7b-prm \

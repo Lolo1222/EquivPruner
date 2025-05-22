@@ -291,7 +291,10 @@ def create_model_worker():
 
     return args, worker
 
-
+def acquire_worker_semaphore():
+    if worker.semaphore is None:
+        worker.semaphore = asyncio.Semaphore(worker.limit_worker_concurrency)
+    return worker.semaphore.acquire()
 # 添加特定路由
 @app.post("/merge_model_inference")
 async def merge_model_inference(request: Dict[str, Any]):
