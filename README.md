@@ -93,3 +93,14 @@ We warmly welcome contributions and discussions related to EquivPruner! If you h
 
 This codebase is built from [openr](https://github.com/openreasoner/openr) and [TokenSkip](https://github.com/hemingkx/TokenSkip).
 
+## Citation
+
+If you find the resources in this repository useful, please cite our paper:
+```
+@article{liu2025equivpruner,
+  title={EquivPruner: Boosting Efficiency and Quality in LLM-Based Search via Action Pruning},
+  author={Jiawei Liu, Qisi Chen, Jianshu Zhang, Quan Liu, Defu Lian},
+  journal={arXiv preprint arXiv:2505.16312},
+  year={2025}
+}
+```
